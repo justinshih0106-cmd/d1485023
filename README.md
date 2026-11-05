@@ -12,4 +12,4 @@
 ## 🔗 專題交付連結
 - **GitHub 專案原始碼**：[https://github.com/justinshih0106-cmd/d1485023/blob/main/README.md]
 - **InfinityFree 首頁展示**：[https://49865168494.lovestoblog.com/]
-- **Vercel 部署網址**：[您的 Vercel 部署網址]
+- **Vercel 部署網址**：[https://d1485023-4zni.vercel.app/]
