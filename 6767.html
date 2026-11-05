@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台中第二市場影展專題 | Taichung Second Market Film Festival</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="大二專題研究：台中第二市場影展專題介紹。融合歷史建築、百年美食文化與獨立影展，探討傳統市場的空間記憶與影像重構。">
+    <meta name="keywords" content="台中第二市場, 影展專題, 大二作業, 傳統市場, 紀錄片, 文化資產, 歷史影像, 影展企劃">
+    <meta name="author" content="影展專題小組">
+    <!-- Open Graph for Social Media -->
+    <meta property="og:title" content="台中第二市場影展專題介紹">
+    <meta property="og:description" content="透過鏡頭走進台中第二市場，穿梭於六角樓與舊城巷弄，探索影像與歷史文化交織的跨時代對話。">
+    <meta property="og:type" content="website">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brick: {
+                            50: '#fdf8f6',
+                            100: '#f2e8e5',
+                            500: '#c04a37',
+                            700: '#983324',
+                            900: '#5c1b12',
+                        },
+                        amberWood: '#d97706',
+                        retroDark: '#1c1917',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans TC', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* 自訂樣式及平滑過渡 */
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+        }
+        .sidebar-transition {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* 美化滾動條 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c04a37;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 font-sans min-h-screen flex flex-col antialiased">
+
+    <!-- 頂部導覽列 Navbar -->
+    <header class="sticky top-0 z-40 bg-brick-900 text-white shadow-lg backdrop-blur-md bg-opacity-95">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                
+                <!-- Logo & 標題 -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                    <div class="w-10 h-10 rounded-full bg-brick-500 flex items-center justify-center font-bold text-xl text-white shadow-md border border-brick-100">
+                        <i class="fa-solid => fa-film"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-lg sm:text-xl tracking-wider block leading-tight">影展專題：第二市場</span>
+                        <span class="text-xs text-stone-300 block font-light">Taichung Market Film Fest</span>
+                    </div>
+                </div>
+
+                <!-- 電腦版導覽選單 (Desktop Navigation) -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-2">
+                    <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-3 py-2 rounded-md text-sm font-medium transition hover:bg-brick-700 flex items-center space-x-1">
+                        <i class="fa-solid fa-house text-xs"></i><span>首頁</span>
+                    </button>
+                    <button onclick="switchTab('curatorial')" id="nav-curatorial" class="nav-btn px-3 py-2 rounded-md text-sm font-medium transition hover:bg-brick-700 flex items-center space-x-1">
+                        <i class="fa-solid fa-camera-retro text-xs"></i><span>影展介紹</span>
+                    </button>
+                    <button onclick="switchTab('market')" id="nav-market" class="nav-btn px-3 py-2 rounded-md text-sm font-medium transition hover:bg-brick-700 flex items-center space-x-1">
+                        <i class="fa-solid fa-store text-xs"></i><span>第二市場專題</span>
+                    </button>
+                    <button onclick="switchTab('films')" id="nav-films" class="nav-btn px-3 py-2 rounded-md text-sm font-medium transition hover:bg-brick-700 flex items-center space-x-1">
+                        <i class="fa-solid fa-clapperboard text-xs"></i><span>影片單元</span>
+                    </button>
+                    <button onclick="switchTab('info')" id="nav-info" class="nav-btn px-3 py-2 rounded-md text-sm font-medium transition hover:bg-brick-700 flex items-center space-x-1">
+                        <i class="fa-solid fa-map-location-dot text-xs"></i><span>交通與參觀資訊</span>
+                    </button>
+                </nav>
+
+                <!-- 操作區：側邊欄切換鈕 & 手機版 Hamburger -->
+                <div class="flex items-center space-x-2">
+                    <!-- Toggle Sidebar Button (Desktop & Mobile) -->
+                    <button id="toggle-sidebar-btn" onclick="toggleSidebar()" title="切換焦點資訊面板" class="p-2 rounded-md bg-brick-700 text-stone-100 hover:bg-brick-500 focus:outline-none focus:ring-2 focus:ring-white">
+                        <i class="fa-solid fa-bars-staggered"></i>
+                        <span class="hidden sm:inline-block text-xs ml-1">焦點面板</span>
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileNav()" class="md:hidden p-2 rounded-md text-stone-200 hover:text-white hover:bg-brick-700 focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl" id="mobile-menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 手機版下拉選單 (Mobile Navigation Drawer) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brick-900 border-t border-brick-700 px-4 pt-2 pb-4 space-y-1">
+            <button onclick="switchTab('home')" class="mobile-nav-btn w-full text-left px-3 py-2 rounded-md text-base font-medium text-stone-200 hover:bg-brick-700">
+                <i class="fa-solid fa-house mr-2"></i>首頁
+            </button>
+            <button onclick="switchTab('curatorial')" class="mobile-nav-btn w-full text-left px-3 py-2 rounded-md text-base font-medium text-stone-200 hover:bg-brick-700">
+                <i class="fa-solid fa-camera-retro mr-2"></i>影展介紹
+            </button>
+            <button onclick="switchTab('market')" class="mobile-nav-btn w-full text-left px-3 py-2 rounded-md text-base font-medium text-stone-200 hover:bg-brick-700">
+                <i class="fa-solid fa-store mr-2"></i>第二市場專題
+            </button>
+            <button onclick="switchTab('films')" class="mobile-nav-btn w-full text-left px-3 py-2 rounded-md text-base font-medium text-stone-200 hover:bg-brick-700">
+                <i class="fa-solid fa-clapperboard mr-2"></i>影片單元
+            </button>
+            <button onclick="switchTab('info')" class="mobile-nav-btn w-full text-left px-3 py-2 rounded-md text-base font-medium text-stone-200 hover:bg-brick-700">
+                <i class="fa-solid fa-map-location-dot mr-2"></i>交通與參觀資訊
+            </button>
+        </div>
+    </header>
+
+    <!-- 頁面主要內容與側邊欄區域 Container -->
+    <div class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 relative flex gap-6">
+
+        <!-- 主要內容區 Main Content Area -->
+        <main class="flex-1 w-full min-w-0 transition-all duration-300">
+            
+            <!-- 分頁 1: 首頁 (Home Tab) -->
+            <section id="tab-home" class="tab-content active space-y-8">
+                <!-- Hero Banner Section -->
+                <div class="relative rounded-2xl overflow-hidden shadow-2xl bg-stone-900 min-h-[360px] flex items-center justify-center p-8 text-white">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80" alt="台中第二市場歷史風華" class="absolute inset-0 w-full h-full object-cover opacity-40 hover:scale-105 transition duration-700">
+                    <div class="relative z-10 text-center max-w-2xl space-y-4">
+                        <span class="inline-block px-3 py-1 bg-brick-500 text-stone-100 text-xs tracking-widest font-semibold rounded-full uppercase mb-2">大二課程專題發表</span>
+                        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">光影凝視：台中第二市場的百味記憶</h1>
+                        <p class="text-base sm:text-lg text-stone-200 font-light">走進1917年建立的六角樓，透過紀錄片與視覺影像，重構歷史建築、傳統攤商與現代城市的文化交會點。</p>
+                        <div class="pt-4 flex justify-center gap-4">
+                            <button onclick="switchTab('curatorial')" class="bg-brick-500 hover:bg-brick-700 text-white font-semibold px-6 py-3 rounded-xl shadow-lg transition">探索影展主題</button>
+                            <button onclick="switchTab('films')" class="bg-stone-800 hover:bg-stone-700 border border-stone-600 text-stone-100 font-semibold px-6 py-3 rounded-xl shadow-lg transition">放映片單</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 專題三核心亮點 Grid 系統 (Grid System: 3 columns) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-xl p-6 shadow-md border border-stone-200 hover:shadow-xl transition">
+                        <div class="w-12 h-12 rounded-lg bg-brick-100 text-brick-500 flex items-center justify-center text-2xl mb-4">
+                            <i class="fa-solid fa-landmark"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-stone-900 mb-2">百年六角樓空間重構</h3>
+                        <p class="text-stone-600 text-sm leading-relaxed">第二市場以經典的六角樓為中心向外延伸，本影展特別規劃六角樓空間沉浸式投影放映，將空間本身化為敘事主體。</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-6 shadow-md border border-stone-200 hover:shadow-xl transition">
+                        <div class="w-12 h-12 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center text-2xl mb-4">
+                            <i class="fa-solid fa-utensils"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-stone-900 mb-2">飲食記憶與影像敘事</h3>
+                        <p class="text-stone-600 text-sm leading-relaxed">從滷肉飯、麻芛soup到老字號紅茶，精選5部聚焦於飲食職人精神與世代傳承的短片，用鏡頭捕捉舌尖上的文化記憶。</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-6 shadow-md border border-stone-200 hover:shadow-xl transition">
+                        <div class="w-12 h-12 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl mb-4">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-stone-900 mb-2">在地居民參與及對談</h3>
+                        <p class="text-stone-600 text-sm leading-relaxed">展期間舉辦多場「攤商X導演」映後座談會，打破銀幕與現實界線，邀請在地老居民與新世代影人共同發聲。</p>
+                    </div>
+                </div>
+
+                <!-- 最新資訊快訊 -->
+                <div class="bg-brick-50 border border-brick-100 rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="text-brick-500 text-3xl"><i class="fa-solid fa-circle-info"></i></div>
+                        <div>
+                            <h4 class="font-bold text-brick-900">學術專題策展說明</h4>
+                            <p class="text-xs sm:text-sm text-stone-600">本網頁為大二「影展專題策劃與實務」課程作業示範成果，包含網頁視覺架構、SEO 規劃與 RWD 設計。</p>
+                        </div>
+                    </div>
+                    <button onclick="switchTab('info')" class="whitespace-nowrap bg-stone-900 text-white text-xs px-4 py-2 rounded-lg hover:bg-stone-800">檢視活動地點</button>
+                </div>
+            </section>
+
+            <!-- 分頁 2: 影展介紹 (Curatorial Tab) -->
+            <section id="tab-curatorial" class="tab-content space-y-6">
+                <div class="border-b border-stone-200 pb-4">
+                    <h2 class="text-2xl font-bold text-brick-900">影展介紹與策展理念</h2>
+                    <p class="text-sm text-stone-500">Curatorial Vision & Concept</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-stone-200 space-y-4">
+                    <h3 class="text-lg font-bold text-stone-900 border-l-4 border-brick-500 pl-3">主題：交界處的光影——舊城區的呼吸</h3>
+                    <p class="text-stone-700 leading-relaxed text-sm">
+                        台中市中區的第二市場（舊稱新富町市場），自日本時代起便是物產集散與生活民生的核心。隨著都市重心轉移，這座市場並未褪色，而是轉化為沉澱歷史記憶的場所。
+                    </p>
+                    <p class="text-stone-700 leading-relaxed text-sm">
+                        本次專題影展以「交界處」為名，企圖探討世代替換、傳統市場的轉型與舊城空間的再再生。透過選映各類紀實、劇情短片與實驗影像，喚起觀影者對傳統市場人文景緻的重塑與思考。
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                        <h4 class="font-bold text-stone-800 mb-3 flex items-center"><i class="fa-solid fa-bullseye text-brick-500 mr-2"></i>策展三大核心目標</h4>
+                        <ul class="space-y-2 text-sm text-stone-600">
+                            <li class="flex items-start"><span class="text-brick-500 mr-2">•</span><strong>空間影像化：</strong>將第二市場放射狀的六角樓建築轉化為視覺符號。</li>
+                            <li class="flex items-start"><span class="text-brick-500 mr-2">•</span><strong>文化資產推廣：</strong>吸引年輕族群透過影像關注台中舊城區文化。</li>
+                            <li class="flex items-start"><span class="text-brick-500 mr-2">•</span><strong>跨界對話平台：</strong>串聯大專院校影視作品與在地社區發展協會。</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                        <h4 class="font-bold text-stone-800 mb-3 flex items-center"><i class="fa-solid fa-graduation-cap text-amber-600 mr-2"></i>大二專題學習範疇</h4>
+                        <ul class="space-y-2 text-sm text-stone-600">
+                            <li class="flex items-start"><span class="text-amber-600 mr-2">•</span>影展單元規劃與節目冊文案撰寫</li>
+                            <li class="flex items-start"><span class="text-amber-600 mr-2">•</span>響應式網頁（RWD）媒體傳播宣傳</li>
+                            <li class="flex items-start"><span class="text-amber-600 mr-2">•</span>實地訪查與市場文史資料庫建置</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 分頁 3: 第二市場專題 (Second Market Feature) -->
+            <section id="tab-market" class="tab-content space-y-6">
+                <div class="border-b border-stone-200 pb-4">
+                    <h2 class="text-2xl font-bold text-brick-900">第二市場專題深入探討</h2>
+                    <p class="text-sm text-stone-500">History, Architecture & Local Culture</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-bold text-stone-800">經典六角樓：獨一無二的放射狀建築</h3>
+                        <p class="text-stone-600 text-sm leading-relaxed">
+                            台中第二市場興建於1917年（大正6年），其最大特色為中央的六角形二樓建築「六角樓」。以此為中心，延伸出六條通道，將市場劃分為生鮮、零售、餐飲等區域。這種獨特的建築形式不僅是歷史遺產，也創造了特殊的迷宮般觀覽體驗。
+                        </p>
+                        <div class="p-4 bg-stone-100 rounded-lg text-xs text-stone-600 border-l-4 border-brick-500">
+                            <strong>專題焦點：</strong>影展現場將設有「建築光影展區」，將市場藍圖與歷史照片投影於六角樓舊牆面上。
+                        </div>
+                    </div>
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=800&q=80" alt="傳統建築意象" class="rounded-xl shadow-md w-full h-64 object-cover">
+                    </div>
+                </div>
+
+                <!-- 傳統美食與文化對比 Table/Grid -->
+                <div class="mt-8">
+                    <h3 class="text-lg font-bold text-stone-900 mb-4">影展特別採訪：市場職人誌</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="bg-white p-4 rounded-xl border border-stone-200 shadow-sm space-y-2">
+                            <span class="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded">傳統名店</span>
+                            <h4 class="font-bold text-stone-800">百年傳承的古早味</h4>
+                            <p class="text-xs text-stone-600">採訪在地營運數十年的老攤商，記錄幾十年來堅持手作工序的毅力與溫情。</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-stone-200 shadow-sm space-y-2">
+                            <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">文創注入</span>
+                            <h4 class="font-bold text-stone-800">青年返鄉與轉型</h4>
+                            <p class="text-xs text-stone-600">紀錄二代、三代接班後，如何利用影像行銷與設計為舊市場注入新生命。</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-stone-200 shadow-sm space-y-2">
+                            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">空間聚落</span>
+                            <h4 class="font-bold text-stone-800">夜間市場的另一面</h4>
+                            <p class="text-xs text-stone-600">攝影團隊於凌晨與深夜捕捉到的市場生態，展現不為人知的城市律動。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 分頁 4: 影片單元 (Films Tab) -->
+            <section id="tab-films" class="tab-content space-y-6">
+                <div class="border-b border-stone-200 pb-4">
+                    <h2 class="text-2xl font-bold text-brick-900">影展片單與主題單元</h2>
+                    <p class="text-sm text-stone-500">Selected Film Sections & Screening Schedule</p>
+                </div>
+
+                <!-- 單元 1 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-stone-200 space-y-4">
+                    <div class="flex items-center justify-between border-b border-stone-100 pb-3">
+                        <span class="px-3 py-1 bg-brick-500 text-white text-xs font-bold rounded">單元 A</span>
+                        <span class="text-xs text-stone-400">片長共 85 分鐘</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-900">《歲月留痕：市場的日常光影》</h3>
+                    <p class="text-stone-600 text-sm">此單元包含 3 部觀察式紀錄短片，聚焦於市場晨光初現至傍晚收攤的日常生活點滴。</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                        <div class="bg-stone-50 p-3 rounded-lg border border-stone-100">
+                            <h4 class="font-bold text-xs text-stone-800">《六角樓下》</h4>
+                            <p class="text-xs text-stone-500 mt-1">導演：專題小組 A組 / 25min</p>
+                        </div>
+                        <div class="bg-stone-50 p-3 rounded-lg border border-stone-100">
+                            <h4 class="font-bold text-xs text-stone-800">《晨曦的刀砧聲》</h4>
+                            <p class="text-xs text-stone-500 mt-1">導演：林小明 / 30min</p>
+                        </div>
+                        <div class="bg-stone-50 p-3 rounded-lg border border-stone-100">
+                            <h4 class="font-bold text-xs text-stone-800">《古早味蒸籠》</h4>
+                            <p class="text-xs text-stone-500 mt-1">導演：張美麗 / 30min</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 單元 2 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-stone-200 space-y-4">
+                    <div class="flex items-center justify-between border-b border-stone-100 pb-3">
+                        <span class="px-3 py-1 bg-amber-600 text-white text-xs font-bold rounded">單元 B</span>
+                        <span class="text-xs text-stone-400">片長共 70 分鐘</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-900">《重構與新生：舊城視野》</h3>
+                    <p class="text-stone-600 text-sm">選映包含劇情短片與實驗動畫，探討新一代年輕人如何重新定義傳統市場在當代城市的定位。</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        <div class="bg-stone-50 p-3 rounded-lg border border-stone-100">
+                            <h4 class="font-bold text-xs text-stone-800">《夜間4點的第二市場》</h4>
+                            <p class="text-xs text-stone-500 mt-1">導演：陳大華 / 40min</p>
+                        </div>
+                        <div class="bg-stone-50 p-3 rounded-lg border border-stone-100">
+                            <h4 class="font-bold text-xs text-stone-800">《交錯的稜鏡》實驗短片</h4>
+                            <p class="text-xs text-stone-500 mt-1">導演：專題小組 B組 / 30min</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 分頁 5: 交通與參觀資訊 (Info Tab) -->
+            <section id="tab-info" class="tab-content space-y-6">
+                <div class="border-b border-stone-200 pb-4">
+                    <h2 class="text-2xl font-bold text-brick-900">交通與放映參觀資訊</h2>
+                    <p class="text-sm text-stone-500">Location, Access & Visitor Information</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- 放映場地與時間 -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 space-y-4">
+                        <h3 class="font-bold text-lg text-stone-800 flex items-center border-b pb-2">
+                            <i class="fa-solid fa-clock text-brick-500 mr-2"></i>影展放映資訊
+                        </h3>
+                        <div class="space-y-2 text-sm text-stone-600">
+                            <p><strong>日期：</strong>2026 年 11 月 20 日（五）～ 11 月 22 日（日）</p>
+                            <p><strong>時間：</strong>每日 10:00 - 18:00</p>
+                            <p><strong>地點：</strong>台中第二市場 六角樓中央廣場 / 舊城放映室</p>
+                            <p><strong>入場方式：</strong>免費入場，座位有限額滿為止。</p>
+                        </div>
+                    </div>
+
+                    <!-- 交通方式 Grid -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 space-y-4">
+                        <h3 class="font-bold text-lg text-stone-800 flex items-center border-b pb-2">
+                            <i class="fa-solid fa-bus text-brick-500 mr-2"></i>如何前往台中第二市場
+                        </h3>
+                        <div class="space-y-3 text-sm text-stone-600">
+                            <div>
+                                <span class="font-bold text-stone-800 block">公車搭乘：</span>
+                                搭乘公車至「第二市場（三民路）」或「第二市場（台灣大道）」站下車即可抵達。
+                            </div>
+                            <div>
+                                <span class="font-bold text-stone-800 block">高鐵/台鐵轉乘：</span>
+                                搭乘台鐵至「台中火車站」，沿台灣大道步行約 10-15 分鐘，或轉搭公車約 5 分鐘。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 模擬地圖展示區 -->
+                <div class="bg-stone-200 rounded-xl p-8 text-center text-stone-600 border border-stone-300">
+                    <i class="fa-solid fa-map-pin text-3xl text-brick-500 mb-2"></i>
+                    <h4 class="font-bold text-stone-800">台中市中區三民路二段87號（第二市場）</h4>
+                    <p class="text-xs text-stone-500 mt-1">影展現場備有指標與志工引導服務</p>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- 可開關的右側側邊欄 (Sidebar) -->
+        <aside id="main-sidebar" class="w-full lg:w-80 flex-shrink-0 bg-white rounded-xl shadow-md border border-stone-200 p-5 space-y-6 self-start sidebar-transition">
+            
+            <!-- 側邊欄標題與關閉按鈕 -->
+            <div class="flex items-center justify-between border-b border-stone-100 pb-3">
+                <h3 class="font-bold text-stone-900 flex items-center">
+                    <i class="fa-solid fa-fire text-brick-500 mr-2"></i>影展焦點與最新消息
+                </h3>
+                <button onclick="toggleSidebar()" class="text-stone-400 hover:text-stone-600 text-sm">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- 最新動態列表 -->
+            <div class="space-y-4">
+                <div class="space-y-1">
+                    <span class="text-[10px] bg-brick-100 text-brick-700 px-2 py-0.5 rounded font-semibold">影展公告</span>
+                    <h4 class="text-xs font-bold text-stone-800 hover:text-brick-500 cursor-pointer" onclick="switchTab('curatorial')">【映後座談】邀請在地百年名店負責人參與對談</h4>
+                    <p class="text-[11px] text-stone-400">2026-11-01</p>
+                </div>
+                <hr class="border-stone-100">
+                <div class="space-y-1">
+                    <span class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-semibold">專題進度</span>
+                    <h4 class="text-xs font-bold text-stone-800 hover:text-brick-500 cursor-pointer" onclick="switchTab('films')">影展節目冊電子版正式上線提供下載</h4>
+                    <p class="text-[11px] text-stone-400">2026-10-28</p>
+                </div>
+                <hr class="border-stone-100">
+                <div class="space-y-1">
+                    <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-semibold">學術成果</span>
+                    <h4 class="text-xs font-bold text-stone-800 hover:text-brick-500 cursor-pointer" onclick="switchTab('market')">大二影像小組完成第二市場歷史文史訪問紀錄</h4>
+                    <p class="text-[11px] text-stone-400">2026-10-15</p>
+                </div>
+            </div>
+
+            <!-- 快速連結區 Quick Links -->
+            <div class="bg-stone-50 rounded-lg p-4 space-y-2 border border-stone-100">
+                <h4 class="text-xs font-bold text-stone-700 uppercase tracking-wider">課程專題相關資源</h4>
+                <ul class="space-y-1 text-xs text-stone-600">
+                    <li><a href="#" onclick="showNotice('已下載企劃書範本')" class="hover:underline text-brick-500 flex items-center"><i class="fa-solid fa-file-pdf mr-1"></i>專題企劃書 (PDF)</a></li>
+                    <li><a href="#" onclick="showNotice('開啟外部導覽地圖')" class="hover:underline text-brick-500 flex items-center"><i class="fa-solid fa-map mr-1"></i>第二市場文化地圖</a></li>
+                </ul>
+            </div>
+
+            <!-- 專題小組名單小卡 -->
+            <div class="border-t border-stone-100 pt-3 text-xs text-stone-500 space-y-1">
+                <p class="font-semibold text-stone-700">作業製作團隊：</p>
+                <p>大二「影展專題與媒體設計」第 4 小組</p>
+                <p>指導老師：課程教授</p>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- 訊息提示視窗 Toast / Notice (替代 alert) -->
+    <div id="toast-message" class="fixed bottom-5 right-5 bg-stone-900 text-white text-xs sm:text-sm px-4 py-3 rounded-lg shadow-2xl hidden z-50 flex items-center space-x-2">
+        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span id="toast-text">操作成功</span>
+    </div>
+
+    <!-- 頁尾 Footer -->
+    <footer class="bg-stone-900 text-stone-400 text-xs py-8 border-t border-stone-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div>
+                    <span class="text-white font-bold text-sm">大二課程專題：「影展專題介紹--第二市場」</span>
+                    <p class="mt-1">本網頁包含 complete RWD, Grid System, SEO 優化架構與分頁切換邏輯。</p>
+                </div>
+                <div class="flex space-x-4">
+                    <button onclick="switchTab('home')" class="hover:text-white">首頁</button>
+                    <button onclick="switchTab('curatorial')" class="hover:text-white">影展介紹</button>
+                    <button onclick="switchTab('market')" class="hover:text-white">第二市場專題</button>
+                    <button onclick="switchTab('info')" class="hover:text-white">交通資訊</button>
+                </div>
+            </div>
+            <div class="border-t border-stone-800 pt-4 text-center sm:text-left text-stone-500">
+                &copy; 2026 影展專題組. All rights reserved. Designed for Academic Presentation.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript 分頁與互動控制邏輯 -->
+    <script>
+        // 切換分頁邏輯 (Tab Switching)
+        function switchTab(tabId) {
+            // 隱藏所有分頁內容
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // 顯示選擇的分頁
+            const targetTab = document.getElementById(`tab-${tabId}`);
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
+
+            // 更新 Navbar 按鈕高亮樣式
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => {
+                btn.classList.remove('bg-brick-700', 'text-white');
+            });
+
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeNav) {
+                activeNav.classList.add('bg-brick-700', 'text-white');
+            }
+
+            // 關閉手機版選單（若開啟中）
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+
+            // 平滑滾動至頂部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 開啟/關閉側邊欄 (Sidebar Toggle)
+        function toggleSidebar() {
+            const sidebar = document.getElementById('main-sidebar');
+            if (sidebar.classList.contains('hidden')) {
+                sidebar.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('hidden');
+            }
+        }
+
+        // 手機版選單切換 (Mobile Nav Toggle)
+        function toggleMobileNav() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // 替代 alert 的 Toast 提示元件
+        function showNotice(msg) {
+            const toast = document.getElementById('toast-message');
+            const toastText = document.getElementById('toast-text');
+            toastText.textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            // 預設切換至首頁
+            switchTab('home');
+        });
+    </script>
+</body>
+</html>
