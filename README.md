@@ -10,6 +10,6 @@
    > 「設計風格需採用傳統市場復古氛圍，結合現代化卡片 Grid 佈局。加入可切換的分頁邏輯與側邊欄開關功能。」
 
 ## 🔗 專題交付連結
-- **GitHub 專案原始碼**：[本 Repository 連結]
+- **GitHub 專案原始碼**：[https://github.com/justinshih0106-cmd/d1485023/blob/main/README.md]
 - **InfinityFree 首頁展示**：[您的 InfinityFree 網址]
 - **Vercel 部署網址**：[您的 Vercel 部署網址]
